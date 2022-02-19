@@ -3,11 +3,13 @@ import apiclient
 from oauth2client.service_account import ServiceAccountCredentials
 
 CREDENTIALS_FILE = 'ytpb-3-test-creds.json'
+SPREADSHEET_ID = '11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A'
 
 
 class TableProcessor:
-    def __init__(self, credentials_file):
+    def __init__(self, credentials_file, spreadsheet_id):
         self.credentials_file = credentials_file
+        self.spreadsheet_id = spreadsheet_id
         credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_file,
                                                                        ['https://www.googleapis.com/auth/spreadsheets',
                                                                         'https://www.googleapis.com/auth/drive'])
@@ -34,7 +36,7 @@ class TableProcessor:
         }).execute()
         return {'spreadsheet_id': spreadsheet['spreadsheetId'], 'spreadsheet_url': spreadsheet['spreadsheetUrl']}
 
-    def access_table(self, spreadsheet_id, gmail_address, role):
+    def access_table(self, gmail_address, role):
         """
         Дает пользователю права на таблицу
         :param spreadsheet_id: ID таблицы к которой даем доступ
@@ -45,16 +47,15 @@ class TableProcessor:
         drive_service = apiclient.discovery.build('drive', 'v3',
                                                   http=self.http_auth)  # Выбираем работу с Google Drive и 3 версию API
         access = drive_service.permissions().create(
-            fileId=spreadsheet_id,
+            fileId=self.spreadsheet_id,
             body={'type': 'user', 'role': role, 'emailAddress': gmail_address},
             fields='id'
         ).execute()
 
-    def append_table(self, values: list, spreadsheet_id: str, sheet_name: str, value_input_option=0):
+    def append_table(self, values: list, sheet_name: str, value_input_option=1):
         """
         Дозаписывает данные в следующую свободную строку таблицы.
         :param values: Список списков с данными, где каждый список в списке это одна строка в таблице.
-        :param spreadsheet_id: ID таблицы в которую будут дозаписаны данные.
         :param sheet_name: Имя листа в который будем дозаписывать данные.
         :param value_input_option: Метод записи, сде 0 - это RAW, то есть сырая строка, а 1 - это USER_ENTERED,
         означает что будет распознано как ввод пользователем и к этим данным будут применяться формулы и с ними,
@@ -66,32 +67,31 @@ class TableProcessor:
         }
 
         result = self.service.spreadsheets().values().append(
-            spreadsheetId=spreadsheet_id,
+            spreadsheetId=self.spreadsheet_id,
             body=body, range=sheet_name,
             valueInputOption=['RAW', 'USER_ENTERED'][value_input_option]
         ).execute()
         return result['updates']['updatedRange']
 
-    def read_table(self, spreadsheet_id: str, range_name: str):
+    def read_table(self, range_name: str):
         """
         Читает данные из таблицы.
-        :param spreadsheet_id: ID таблицы из которой будем читать данные.
         :param range_name: Имя диапазона а A1 аннотации. Можно передать имя листа для считывания его.
         :return: Список списков, где каждый список это одна строка или None, если лист и/или диапазон пуст.
         """
         result = self.service.spreadsheets().values().get(
-            spreadsheetId=spreadsheet_id, range=range_name).execute()
+            spreadsheetId=self.spreadsheet_id, range=range_name).execute()
 
         return result.get('values')
 
 
 if __name__ == '__main__':
-    gh_w_1 = TableProcessor(CREDENTIALS_FILE)
+    gh_w_1 = TableProcessor(CREDENTIALS_FILE, SPREADSHEET_ID)
     # t_1 = gh_w_1.create_table('t1', 'list_1', 100, 10)
     # gh_w_1.access_table('11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A', 'alekseygalkovich@gmail.com', 'writer')
     # print(gh_w_1)
-    # print(gh_w_1.append_table([['=3*6', '5', '11010', 'hello1']],
-    # '11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A', 'list_2'))
-    print(gh_w_1.read_table('11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A', 'list_2'))
+    # print(gh_w_1.append_table([[374783606, 'Алексей', 'admin']], 'users'))
+    print(gh_w_1.append_table([[123456789, 'Вася', 'user']], 'users'))
+    print(gh_w_1.read_table('users'))
 
 
