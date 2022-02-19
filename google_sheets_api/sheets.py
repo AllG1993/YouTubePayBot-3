@@ -72,12 +72,26 @@ class TableProcessor:
         ).execute()
         return result['updates']['updatedRange']
 
+    def read_table(self, spreadsheet_id: str, range_name: str):
+        """
+        Читает данные из таблицы.
+        :param spreadsheet_id: ID таблицы из которой будем читать данные.
+        :param range_name: Имя диапазона а A1 аннотации. Можно передать имя листа для считывания его.
+        :return: Список списков, где каждый список это одна строка или None, если лист и/или диапазон пуст.
+        """
+        result = self.service.spreadsheets().values().get(
+            spreadsheetId=spreadsheet_id, range=range_name).execute()
+
+        return result.get('values')
+
 
 if __name__ == '__main__':
     gh_w_1 = TableProcessor(CREDENTIALS_FILE)
     # t_1 = gh_w_1.create_table('t1', 'list_1', 100, 10)
     # gh_w_1.access_table('11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A', 'alekseygalkovich@gmail.com', 'writer')
     # print(gh_w_1)
-    print(gh_w_1.append_table([['=2*5', '2', '3']], '11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A', 'list_1'))
+    # print(gh_w_1.append_table([['=3*6', '5', '11010', 'hello1']],
+    # '11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A', 'list_2'))
+    print(gh_w_1.read_table('11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A', 'list_2'))
 
 
