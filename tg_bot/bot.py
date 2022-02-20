@@ -3,7 +3,8 @@ import sys
 
 
 sys.path.insert(0, os.path.abspath(''))
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(1, os.path.abspath('..'))
+sys.path.insert(1, r'C:\\Users\\Aleksey\\PycharmProjects\\TGBots\\YouTubePayBot-3')
 print(sys.path)
 from aiogram import executor
 

@@ -6,7 +6,7 @@ import apiclient
 from oauth2client.service_account import ServiceAccountCredentials
 
 # creds_path = Path('ytpb-3-test-creds.json')
-creds_path = Path(Path().cwd().parent, 'google_sheets_api', 'ytpb-3-test-creds.json')
+creds_path = Path(__file__, '..', 'ytpb-3-test-creds.json')
 
 
 class SpreadsheetProcessor:
