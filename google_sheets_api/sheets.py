@@ -2,11 +2,8 @@ import httplib2
 import apiclient
 from oauth2client.service_account import ServiceAccountCredentials
 
-CREDENTIALS_FILE = 'ytpb-3-test-creds.json'
-SPREADSHEET_ID = '11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A'
 
-
-class TableProcessor:
+class SpreadsheetProcessor:
     def __init__(self, credentials_file, spreadsheet_id):
         self.credentials_file = credentials_file
         self.spreadsheet_id = spreadsheet_id
@@ -86,12 +83,13 @@ class TableProcessor:
 
 
 if __name__ == '__main__':
-    gh_w_1 = TableProcessor(CREDENTIALS_FILE, SPREADSHEET_ID)
+    # gh_w_1 = SpreadsheetProcessor(CREDENTIALS_FILE, SPREADSHEET_ID)
     # t_1 = gh_w_1.create_table('t1', 'list_1', 100, 10)
     # gh_w_1.access_table('11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A', 'alekseygalkovich@gmail.com', 'writer')
     # print(gh_w_1)
     # print(gh_w_1.append_table([[374783606, 'Алексей', 'admin']], 'users'))
-    print(gh_w_1.append_table([[123456789, 'Вася', 'user']], 'users'))
-    print(gh_w_1.read_table('users'))
+    # print(gh_w_1.append_table([[123456789, 'Вася', 'user']], 'users'))
+    # print(gh_w_1.read_table('users'))
+    ...
 
 
