@@ -12,7 +12,7 @@ from google_sheets_api.sheets import SpreadsheetProcessor
 
 
 # creds_path = Path(Path.cwd().parent, r'ytpb-3-test-creds.json')
-creds_path = os.path.dirname(os.path.abspath('')) + '/ytpb-3-test-creds.json'
+creds_path = os.path.dirname(os.path.abspath('')) + 'ytpb-3-test-creds.json'
 spreadsheet_handler = SpreadsheetProcessor(creds_path, '11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A')
 
 
