@@ -6,7 +6,7 @@ import apiclient
 from oauth2client.service_account import ServiceAccountCredentials
 
 # creds_path = Path('ytpb-3-test-creds.json')
-creds_path = Path(__file__, Path('..'), 'ytpb-3-test-creds.json')
+creds_path = Path(Path(__file__).parent, 'ytpb-3-test-creds.json')
 
 
 class SpreadsheetProcessor:
