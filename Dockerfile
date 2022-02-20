@@ -12,6 +12,8 @@ RUN pip install --upgrade pip
 RUN pip install -U aiogram
 RUN pip install -U oauth2client
 RUN pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
-
+RUN ls
+RUN ls ..
+RUN ls YouTubePayBot
 
 ENTRYPOINT ["python", "tg_bot/bot.py"]
