@@ -1,6 +1,3 @@
-import os
-from pathlib import Path
-
 from aiogram import types
 
 from datetime import datetime
@@ -11,9 +8,7 @@ from users.users import User
 from google_sheets_api.sheets import SpreadsheetProcessor
 
 
-# creds_path = Path(Path.cwd().parent, r'ytpb-3-test-creds.json')
-creds_path = os.path.dirname(os.path.abspath('')) + 'ytpb-3-test-creds.json'
-spreadsheet_handler = SpreadsheetProcessor(creds_path, '11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A')
+spreadsheet_handler = SpreadsheetProcessor('11Uon-RJ_NahW-hAJiCb78zhstKOUDRw6nh_4hL9XI4A')
 
 
 async def start_help(message: types.Message):
@@ -44,6 +39,5 @@ async def paid(message: types.Message):
     spreadsheet_handler.append_table([[datetime.now().strftime('%d.%m.%y %H:%M'), user.name, user.id]], 'payments')
     await bot.send_message(user.id, '111')
 
-if __name__ == '__main__':
-    project_dir = Path.cwd()
+
 

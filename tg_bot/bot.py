@@ -1,5 +1,8 @@
 import os
 import sys
+from pathlib import Path
+
+from google_sheets_api import get_creds_path
 
 sys.path.insert(0, os.path.abspath(''))
 from aiogram import executor
@@ -17,5 +20,4 @@ dp.register_message_handler(paid, commands='paid', is_trusted_user=True)
 
 
 if __name__ == '__main__':
-    print(os.path.abspath(''))
     executor.start_polling(dp, skip_updates=True)

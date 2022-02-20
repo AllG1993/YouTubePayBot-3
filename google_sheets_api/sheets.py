@@ -1,13 +1,17 @@
+import os
+from pathlib import Path
+
 import httplib2
 import apiclient
 from oauth2client.service_account import ServiceAccountCredentials
 
+creds_path = Path(Path().cwd().parent, Path('ytpb-3-test-creds.json'))
+
 
 class SpreadsheetProcessor:
-    def __init__(self, credentials_file, spreadsheet_id):
-        self.credentials_file = credentials_file
+    def __init__(self, spreadsheet_id):
         self.spreadsheet_id = spreadsheet_id
-        credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_file,
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(creds_path,
                                                                        ['https://www.googleapis.com/auth/spreadsheets',
                                                                         'https://www.googleapis.com/auth/drive'])
         self.http_auth = credentials.authorize(httplib2.Http())
