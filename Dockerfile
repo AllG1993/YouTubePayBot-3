@@ -5,7 +5,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get clean
 USER root
 RUN mkdir /YouTubePayBot
 WORKDIR /YouTubePayBot
-COPY . .
+COPY . /YouTubePayBot
 
 
 RUN pip install --upgrade pip
